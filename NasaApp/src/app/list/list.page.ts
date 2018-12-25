@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
   selector: 'app-list',
@@ -20,7 +21,7 @@ export class ListPage implements OnInit {
     'build'
   ];
   public items: Array<{ title: string; note: string; icon: string }> = [];
-  constructor() {
+  constructor(public dataService: DataService) {
     for (let i = 1; i < 11; i++) {
       this.items.push({
         title: 'Item ' + i,
@@ -31,6 +32,9 @@ export class ListPage implements OnInit {
   }
 
   ngOnInit() {
+    this.dataService.get<any>('mars-photos/api/v1/rovers/curiosity/photos?sol=1000').subscribe(result => {
+      console.log(result);
+    });
   }
   // add back when alpha.4 is out
   // navigate(item) {
