@@ -1,6 +1,8 @@
 {
   "name": "NasaApp",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular",
   "id": "789f168a"
 }
