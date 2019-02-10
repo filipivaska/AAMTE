@@ -1,22 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../shared/services/data.service';
-import { listLazyRoutes } from '@angular/compiler/src/aot/lazy_routes';
-import { environment } from 'src/environments/environment.prod';
+import { File } from '@ionic-native/file';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 
 @Component({
   selector: 'app-epic',
   templateUrl: './epic.page.html',
   styleUrls: ['./epic.page.scss'],
+  providers: [FileTransfer]
 })
 export class EpicPage implements OnInit {
 
   list = [];
+  fileTransfer: FileTransferObject = this.transfer.create();
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService,
+    private transfer: FileTransfer) { }
 
   ngOnInit() {
     this.dataService.get<any[]>('EPIC/api/natural/images', null).subscribe(result => {
-      console.log(result);
       result.forEach(item => {
         const year = item.date.slice(0, 4);
         const month = item.date.slice(5, 7);
@@ -26,6 +28,15 @@ export class EpicPage implements OnInit {
         });
       });
     });
+  }
+
+  downloadImage(url: string) {
+    console.log(url);
+    this.fileTransfer.download(url, 'file.jpg').then((entry) => {
+    console.log('download complete: ' + entry.toURL());
+  }, (error) => {
+    // handle error
+  });
   }
 
 }
