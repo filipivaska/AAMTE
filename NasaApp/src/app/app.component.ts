@@ -14,12 +14,12 @@ export class AppComponent {
       title: 'Home',
       url: '/home',
       icon: 'home'
-    }/*,
+    },
     {
-      title: 'List',
-      url: '/list',
+      title: 'EPIC',
+      url: '/epic',
       icon: 'list'
-    }*/
+    }
   ];
 
   constructor(

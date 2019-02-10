@@ -13,9 +13,9 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
-  public get<T>(url: string, parameter?: any, showProgress = true): Observable<T> {
+  public get<T>(url: string, parameter?: any, customUrl = false, showProgress = true): Observable<T> {
     let requestUrl: string;
-    requestUrl = `${environment.api_url}/${url}&api_key=${environment.api_key}`;
+    requestUrl = customUrl ? url : `${environment.api_url}/${url}?api_key=${environment.api_key}`;
 
     const promise = this.http.get<T>(requestUrl).pipe(share());
     this.setProgress(promise, showProgress);

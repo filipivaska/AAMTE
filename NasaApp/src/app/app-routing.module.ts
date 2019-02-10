@@ -10,7 +10,12 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: './home/home.module#HomePageModule'
+  },
+  {
+    path: 'epic',
+    loadChildren: './epic/epic.module#EpicPageModule'
   }
+
 ];
 
 @NgModule({

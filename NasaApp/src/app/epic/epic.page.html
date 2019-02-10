@@ -1,0 +1,7 @@
+<app-header [title]="'EPIC'"></app-header>
+
+<ion-content padding>
+  <div *ngFor="let image of list">
+    <img [src]="image.url">
+  </div>
+</ion-content>
