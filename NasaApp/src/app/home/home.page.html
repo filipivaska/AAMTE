@@ -1,4 +1,62 @@
 <app-header [title]="'Domov'"></app-header>
 <ion-content>
+    <ion-item>
+    <ion-label>NASA Rovery</ion-label>
+        <ion-select placeholder="Vybrat rover" [mode]="'md'" [(ngModel)]="selectedRoverName" (ionChange)="roverSelected()">
+            <ion-select-option *ngFor="let rover of roverList" >{{ rover }}</ion-select-option>
+        </ion-select>
+    </ion-item>
+    <div class="rover-info" *ngIf="selectedRover">
+        <h2 class="name">
+            {{ selectedRover.Name }}
+        </h2>
+        <div>
+            <img src="assets/images/{{ selectedRover.Name }}.jpg">
+            <ion-grid>
+                <ion-row>
+                    <ion-col>
+                            Počet dní na marťanských dní Marse (sol)
+                    </ion-col>
+                    <ion-col>
+                            {{ selectedRover.SolCount }}
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                            Ďeň vzletu
+                    </ion-col>
+                    <ion-col>
+                            {{ selectedRover.LaunchDate }}
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                            Deň pristátia
+                    </ion-col>
+                    <ion-col>
+                            {{ selectedRover.LandingDate }}
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        Celkový počet fotiek
+                    </ion-col>
+                    <ion-col>
+                        {{ selectedRover.TotalPhotos }}
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <div class="latest-photos" *ngFor="let photo of selectedRover.Photos">
+                <img [src]="photo.img_src"> 
+                <div>
+                    Zemský dátum: {{ photo.earth_date }}
+                </div>
+                <div>
+                    Marťanský dátum: {{ photo.sol }}
+                </div>
+            </div>
+            {{ selectedRover.Description }}
+        </div>
+    </div>
 
 </ion-content>
