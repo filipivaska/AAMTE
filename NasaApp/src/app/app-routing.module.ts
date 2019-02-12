@@ -14,7 +14,8 @@ const routes: Routes = [
   {
     path: 'epic',
     loadChildren: './epic/epic.module#EpicPageModule'
-  }
+  },  { path: 'apod', loadChildren: './apod/apod.module#ApodPageModule' }
+
 
 ];
 

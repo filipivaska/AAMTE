@@ -19,6 +19,11 @@ export class AppComponent {
       title: 'EPIC',
       url: '/epic',
       icon: 'list'
+    },
+    {
+      title: 'APOD',
+      url: '/apod',
+      icon: 'list'
     }
   ];
 
