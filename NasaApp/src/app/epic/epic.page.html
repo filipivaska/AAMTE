@@ -2,6 +2,7 @@
 
 <ion-content padding>
   <div *ngFor="let image of list">
-    <img [src]="image.url" (pressup)="downloadImage(image.url)">
+    <img [src]="image.Url" (pressup)="downloadImage(image.Url)">
+    {{ image.Date | date:'short'}}
   </div>
 </ion-content>
