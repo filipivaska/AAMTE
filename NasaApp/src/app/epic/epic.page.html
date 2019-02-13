@@ -24,7 +24,9 @@
       </h4>
       These images were processed to enhance land features. To obtain the 'enhanced' images we subtracted the atmospheric haze that is caused by air molecular scattering and attenuation of solar light by ozone. The calculations account for Earth's spherical geometry.    </div>
   <div *ngFor="let image of list" class="image-wrapper">
-    <img [src]="image.Url" (pressup)="downloadImage(image.Url)">
+    <a [href]="image.Url">
+      <img [src]="image.Url" (pressup)="downloadImage(image.Url)">
+    </a>
     {{ image.Date | date:'d.M.yyyy h:mm'}}
     <div>
       <a href="http://www.google.com/maps/place/{{ image.Coordinates.lat }},{{ image.Coordinates.lon }}">
