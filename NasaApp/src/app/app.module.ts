@@ -11,6 +11,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { IonicGestureConfig } from './shared/directives/hammer.directive';
+import { File } from '@ionic-native/file/ngx';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +28,9 @@ import { IonicGestureConfig } from './shared/directives/hammer.directive';
     SplashScreen,
     DataService,
     HttpClient,
+    FileTransfer,
+    FileTransferObject,
+    File,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HAMMER_GESTURE_CONFIG,

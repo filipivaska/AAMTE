@@ -2,7 +2,7 @@
 <ion-content padding>
     <ion-item>
     <ion-label>NASA Rovery</ion-label>
-        <ion-select placeholder="Vybrat rover" [mode]="'md'" [(ngModel)]="selectedRoverName" (ionChange)="roverSelected()">
+        <ion-select placeholder="Vybrať rover" [mode]="'md'" [(ngModel)]="selectedRoverName" (ionChange)="roverSelected()">
             <ion-select-option *ngFor="let rover of roverList" >{{ rover }}</ion-select-option>
         </ion-select>
     </ion-item>
@@ -15,7 +15,7 @@
             <ion-grid>
                 <ion-row>
                     <ion-col>
-                            Počet dní na marťanských dní Marse (sol)
+                            Počet marťanských dní Marse (sol)
                     </ion-col>
                     <ion-col>
                             {{ selectedRover.SolCount }}
@@ -46,16 +46,51 @@
                     </ion-col>
                 </ion-row>
             </ion-grid>
+            <ion-item>
+            <ion-label>Kamery</ion-label>
+                <ion-select placeholder="Vybrať kameru" [mode]="'md'" [(ngModel)]="selectedCamera" (ionChange)="cameraSelected()">
+                    <ion-select-option [value]="'all'">Všetky</ion-select-option>
+                    <ion-select-option *ngFor="let camera of selectedRover.Cameras" [value]="camera.name">{{ camera.full_name }}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item *ngIf="selectedCamera !== 'all'">
+                <ion-label>Dátum</ion-label>
+                <ion-datetime display-format="D.M.YYYY" [(ngModel)]="date" (ionChange)="dateChanged()"></ion-datetime>
+            </ion-item>
             <div class="latest-photos" *ngFor="let photo of selectedRover.Photos">
                 <img [src]="photo.img_src"> 
-                <div>
-                    Zemský dátum: {{ photo.earth_date }}
-                </div>
-                <div>
-                    Marťanský dátum: {{ photo.sol }}
-                </div>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            Zemský dátum:
+                        </ion-col>
+                        <ion-col>
+                            {{ photo.earth_date }}
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            Marťanský dátum:
+                        </ion-col>
+                        <ion-col>
+                            {{ photo.sol }}
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            Použitá kamera:
+                        </ion-col>
+                        <ion-col>
+                            {{ photo.camera.full_name }}
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
             </div>
-            {{ selectedRover.Description }}
+            <p *ngIf="selectedRover.Photos.length === 0">
+                Žiadne fotografie neboli nájdené</p>
+            <p>
+                {{ selectedRover.Description }}
+            </p>
         </div>
     </div>
 

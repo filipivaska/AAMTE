@@ -1,10 +1,10 @@
 <app-header [title]="'Astronomy picture of the day'"></app-header>
 
 <ion-content padding>
-    <ion-item>
-      <ion-label>Datum</ion-label>
-      <ion-datetime display-format="D.M.YYYY" [(ngModel)]="date" (ionChange)="dateChanged()"></ion-datetime>
-    </ion-item>
+  <ion-item>
+    <ion-label>Dátum</ion-label>
+    <ion-datetime display-format="D.M.YYYY" [(ngModel)]="date" (ionChange)="dateChanged()"></ion-datetime>
+  </ion-item>
   <div class="picture-wrapper" *ngIf="selectedImage">
     <div class="title">
       {{ selectedImage.title }}

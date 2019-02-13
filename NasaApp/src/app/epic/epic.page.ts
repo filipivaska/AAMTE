@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../shared/services/data.service';
-import { File } from '@ionic-native/file';
+import { File } from '@ionic-native/file/ngx';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { EpicItem } from './models/epic-item.model';
 
@@ -14,12 +14,14 @@ export class EpicPage implements OnInit {
 
   list: EpicItem[];
   fileTransfer: FileTransferObject = this.transfer.create();
+  fired = false;
 
   constructor(private dataService: DataService,
-    private transfer: FileTransfer) { }
+    private transfer: FileTransfer,
+    private file: File) { }
 
   ngOnInit() {
-    this.dataService.get<any[]>('https://epic.gsfc.nasa.gov/api/enhanced', null, true).subscribe(result => {
+    this.dataService.get<any[]>('https://epic.gsfc.nasa.gov/api/enhanced', true).subscribe(result => {
       this.list = [];
       result.forEach(item => {
         const year = item.date.slice(0, 4);
@@ -36,7 +38,8 @@ export class EpicPage implements OnInit {
 
   downloadImage(url: string) {
     console.log(url);
-    this.fileTransfer.download(url, 'file.jpg').then((entry) => {
+    this.fired=true;
+    this.fileTransfer.download(url, this.file.dataDirectory + 'file.jpg').then((entry) => {
     console.log('download complete: ' + entry.toURL());
   }, (error) => {
     // handle error

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DataService } from '../shared/services/data.service';
 import { Rover } from './models/rover.model';
+import { all } from 'q';
 
 @Component({
   selector: 'app-home',
@@ -10,9 +11,9 @@ import { Rover } from './models/rover.model';
 export class HomePage {
 
   rovers = {
-    Curiosity: 'curiosity',
-    Opportunity: 'opportunity',
-    Spirit: 'spirit'
+    Curiosity: 'Curiosity',
+    Opportunity: 'Opportunity',
+    Spirit: 'Spirit'
   };
 
   opportunityDescription: string;
@@ -27,22 +28,27 @@ export class HomePage {
   selectedRover: Rover;
   selectedDescription: string;
   selectedRoverName: string;
+  selectedCamera = 'all';
+  date: string;
+  apiBaseUrl = 'https://mars-photos.herokuapp.com/api/v1/rovers/';
 
   constructor(private dataService: DataService) {
     this.initTexts();
+    const today = new Date();
+    this.date = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate()}`;
   }
 
   roverSelected(): void {
-    this.dataService.get<any>(`https://mars-photos.herokuapp.com/api/v1/rovers/${this.selectedRoverName}/latest_photos`, null, true)
+    this.dataService.get<any>(`${this.apiBaseUrl}${this.selectedRoverName}/latest_photos`, true)
     .subscribe(result => {
-      console.log(result);
       this.selectedRover = new Rover();
       this.selectedRover.Name = this.selectedRoverName;
       this.selectedRover.SolCount = result.latest_photos[0].rover.max_sol;
       this.selectedRover.LaunchDate = result.latest_photos[0].rover.launch_date;
       this.selectedRover.LandingDate = result.latest_photos[0].rover.landing_date;
       this.selectedRover.Cameras = result.latest_photos[0].rover.cameras;
-      this.selectedRover.Photos = result.latest_photos.slice(0, 10);
+      this.selectedRover.TotalPhotos = result.latest_photos[0].rover.total_photos;
+      this.selectedRover.Photos = result.latest_photos.slice(0, 20);
       if (this.selectedRover.Name === this.rovers.Curiosity) {
         this.selectedRover.Description = this.curiosityDescription;
       }
@@ -52,6 +58,19 @@ export class HomePage {
       if (this.selectedRover.Name === this.rovers.Spirit) {
         this.selectedRover.Description = this.spiritDescription;
       }
+    });
+  }
+
+  cameraSelected(): void {
+    if (this.selectedCamera === 'all') {
+      this.roverSelected();
+    }
+  }
+
+  dateChanged(): void {
+    this.dataService.get<any>(`${this.apiBaseUrl}${this.selectedRoverName}/photos/?earth_date=${this.date}&camera=${this.selectedCamera}`, true)
+    .subscribe(result => {
+      this.selectedRover.Photos = result.photos.splice(0, 20);
     });
   }
 

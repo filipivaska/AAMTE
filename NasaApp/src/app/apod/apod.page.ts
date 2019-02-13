@@ -24,7 +24,7 @@ export class ApodPage implements OnInit {
   }
 
   dateChanged(): void {
-    this.dataService.get<ImageModel>(`https://api.nasa.gov/planetary/apod?date=${this.date}&api_key=${environment.api_key}`, null, true)
+    this.dataService.get<ImageModel>(`https://api.nasa.gov/planetary/apod?date=${this.date}&api_key=${environment.api_key}`, true)
     .subscribe(result => {
       this.selectedImage = result;
     });

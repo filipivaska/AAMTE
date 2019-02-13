@@ -2,3 +2,20 @@
   max-height: 35vh;
   overflow: hidden;
 }
+
+ion-row{
+  border-bottom: 1px solid lightgray;
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.latest-photos {
+  margin: 10px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid lightgray;
+  &:last-of-type {
+    border-bottom: none;
+    margin-bottom: 25px;
+  }
+}
