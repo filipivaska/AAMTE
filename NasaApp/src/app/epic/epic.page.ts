@@ -1,3 +1,4 @@
+import { LoadingService } from './../shared/services/loading.service';
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../shared/services/data.service';
 import { File } from '@ionic-native/file/ngx';
@@ -15,30 +16,40 @@ export class EpicPage implements OnInit {
   list: EpicItem[];
   fileTransfer: FileTransferObject = this.transfer.create();
   fired = false;
+  date: string;
+  selectedType = 'enhanced';
 
   constructor(private dataService: DataService,
     private transfer: FileTransfer,
-    private file: File) { }
+    private file: File,
+    private loadingService: LoadingService) { }
 
   ngOnInit() {
-    this.dataService.get<any[]>('https://epic.gsfc.nasa.gov/api/enhanced', true).subscribe(result => {
+    const today = new Date();
+    this.date = '2018-12-30';
+    this.selectionChanged();
+  }
+
+  selectionChanged(): void {
+    this.dataService.get<any[]>(`https://epic.gsfc.nasa.gov/api/${this.selectedType}/date/${this.date}`, true).subscribe(result => {
       this.list = [];
       result.forEach(item => {
         const year = item.date.slice(0, 4);
         const month = item.date.slice(5, 7);
         const day = item.date.slice(8, 10);
         this.list.push({
-          Url: `https://epic.gsfc.nasa.gov/archive/enhanced/${year}/${month}/${day}/jpg/${item.image}.jpg`,
+          Url: `https://epic.gsfc.nasa.gov/archive/${this.selectedType}/${year}/${month}/${day}/jpg/${item.image}.jpg`,
           Coordinates: item.centroid_coordinates,
           Date: new Date(item.date)
         });
+        this.loadingService.dismiss();
       });
     });
   }
 
   downloadImage(url: string) {
     console.log(url);
-    this.fired=true;
+    this.fired = true;
     this.fileTransfer.download(url, this.file.dataDirectory + 'file.jpg').then((entry) => {
     console.log('download complete: ' + entry.toURL());
   }, (error) => {

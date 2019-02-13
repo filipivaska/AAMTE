@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { IonicGestureConfig } from './shared/directives/hammer.directive';
 import { File } from '@ionic-native/file/ngx';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { LoadingService } from './shared/services/loading.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +32,7 @@ import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ng
     FileTransfer,
     FileTransferObject,
     File,
+    LoadingService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HAMMER_GESTURE_CONFIG,

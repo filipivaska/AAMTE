@@ -1,0 +1,10 @@
+.image-wrapper {
+    margin-top: 15px;
+    border-bottom: 1px solid lightgray;
+    &:last-of-type {
+        border-bottom: none;
+    }
+    a{
+        text-decoration: none;
+    }
+}

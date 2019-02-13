@@ -1,8 +1,35 @@
 <app-header [title]="'EPIC'"></app-header>
 
 <ion-content padding>
-  <div *ngFor="let image of list">
+  <ion-item>
+    <ion-label>Typ</ion-label>
+    <ion-select [(ngModel)]="selectedType" (ionChange)="selectionChanged()">
+        <ion-select-option [value]="'enhanced'">Upravené</ion-select-option>
+        <ion-select-option [value]="'natural'">Natural</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Dátum</ion-label>
+    <ion-datetime display-format="D.M.YYYY" [(ngModel)]="date" (ionChange)="selectionChanged()"></ion-datetime>
+  </ion-item>
+  <div *ngIf="selectedType === 'natural'">
+    <h4>
+        NATURAL COLOR IMAGERY
+    </h4>
+      These images were created using the bands from EPIC that are within the human visual range. They have been color and brightness adjusted to represent what a conventional camera would produce.
+  </div>
+  <div *ngIf="selectedType === 'enhanced'">
+      <h4>
+          ENHANCED COLOR IMAGERY
+      </h4>
+      These images were processed to enhance land features. To obtain the 'enhanced' images we subtracted the atmospheric haze that is caused by air molecular scattering and attenuation of solar light by ozone. The calculations account for Earth's spherical geometry.    </div>
+  <div *ngFor="let image of list" class="image-wrapper">
     <img [src]="image.Url" (pressup)="downloadImage(image.Url)">
-    {{ image.Date | date:'short'}}
+    {{ image.Date | date:'d.M.yyyy h:mm'}}
+    <div>
+      <a href="http://www.google.com/maps/place/{{ image.Coordinates.lat }},{{ image.Coordinates.lon }}">
+        Súradnice lat:{{ image.Coordinates.lat }} lon:{{ image.Coordinates.lon }}
+      </a>
+    </div>
   </div>
 </ion-content>

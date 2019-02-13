@@ -1,7 +1,9 @@
+import { LoadingService } from './../shared/services/loading.service';
 import { Component } from '@angular/core';
 import { DataService } from '../shared/services/data.service';
 import { Rover } from './models/rover.model';
 import { all } from 'q';
+import { LoadingController } from '@ionic/angular/dist/providers/loading-controller';
 
 @Component({
   selector: 'app-home',
@@ -32,13 +34,15 @@ export class HomePage {
   date: string;
   apiBaseUrl = 'https://mars-photos.herokuapp.com/api/v1/rovers/';
 
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataService,
+    public loadingController: LoadingService) {
     this.initTexts();
     const today = new Date();
     this.date = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate()}`;
   }
 
   roverSelected(): void {
+    this.loadingController.present();
     this.dataService.get<any>(`${this.apiBaseUrl}${this.selectedRoverName}/latest_photos`, true)
     .subscribe(result => {
       this.selectedRover = new Rover();
@@ -58,6 +62,7 @@ export class HomePage {
       if (this.selectedRover.Name === this.rovers.Spirit) {
         this.selectedRover.Description = this.spiritDescription;
       }
+      this.loadingController.dismiss();
     });
   }
 
@@ -68,8 +73,10 @@ export class HomePage {
   }
 
   dateChanged(): void {
+    this.loadingController.present();
     this.dataService.get<any>(`${this.apiBaseUrl}${this.selectedRoverName}/photos/?earth_date=${this.date}&camera=${this.selectedCamera}`, true)
     .subscribe(result => {
+      this.loadingController.dismiss();
       this.selectedRover.Photos = result.photos.splice(0, 20);
     });
   }
