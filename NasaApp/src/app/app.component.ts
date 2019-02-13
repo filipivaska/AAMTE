@@ -24,6 +24,11 @@ export class AppComponent {
       title: 'APOD - Obrázok dňa',
       url: '/apod',
       icon: 'camera'
+    },
+    {
+      title: 'Mapa',
+      url: '/map',
+      icon: 'map'
     }
   ];
 

@@ -14,6 +14,8 @@ import { IonicGestureConfig } from './shared/directives/hammer.directive';
 import { File } from '@ionic-native/file/ngx';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { LoadingService } from './shared/services/loading.service';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { GoogleMaps } from '@ionic-native/google-maps/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,6 +35,8 @@ import { LoadingService } from './shared/services/loading.service';
     FileTransferObject,
     File,
     LoadingService,
+    Geolocation,
+    GoogleMaps,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HAMMER_GESTURE_CONFIG,

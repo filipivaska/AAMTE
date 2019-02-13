@@ -15,7 +15,7 @@ export class DataService {
 
   public get<T>(url: string, customUrl = false): Observable<T> {
     let requestUrl: string;
-    requestUrl = customUrl ? url : `${environment.api_url}${url}?api_key=${environment.api_key}`;
+    requestUrl = customUrl ? url : `${environment.api_url}${url}&api_key=${environment.api_key}`;
 
     const promise = this.http.get<T>(requestUrl).pipe(share());
 

@@ -4,6 +4,7 @@ import { DataService } from '../shared/services/data.service';
 import { File } from '@ionic-native/file/ngx';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { EpicItem } from './models/epic-item.model';
+import * as dl from 'cordova-plugin-android-downloadmanager';
 
 @Component({
   selector: 'app-epic',
@@ -48,13 +49,30 @@ export class EpicPage implements OnInit {
   }
 
   downloadImage(url: string) {
-    console.log(url);
+    /*console.log(url);
     this.fired = true;
     this.fileTransfer.download(url, this.file.dataDirectory + 'file.jpg').then((entry) => {
     console.log('download complete: ' + entry.toURL());
-  }, (error) => {
+      }, (error) => {
     // handle error
   });
+  const req = {
+    uri: url,
+    title: 'Testfile',
+    description: 'a test file',
+    mimeType: 'application/image',
+    visibleInDownloadsUi: true,
+    notificationVisibility: 0,
+
+    destinationInExternalFilesDir: {
+      dirType: 'DIRECTORY_MUSIC',
+      subPath: ''
+    }
+  };
+    console.log(dl);
+    const dl2 = dl.__proto__;
+    console.log(dl2);
+    dl2.enqueue(req, console.info);*/
   }
 
 }
