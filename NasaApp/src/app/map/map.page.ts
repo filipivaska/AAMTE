@@ -1,5 +1,4 @@
-import { GoogleMaps, GoogleMap } from '@ionic-native/google-maps/ngx';
-import { DataService } from 'src/app/shared/services/data.service';
+import { GoogleMaps, GoogleMap, LatLng, CameraPosition, MarkerOptions } from '@ionic-native/google-maps/ngx';
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 
@@ -18,15 +17,14 @@ export class MapPage implements OnInit, AfterViewInit {
   @ViewChild('map') mapElement: ElementRef;
 
   constructor(private geoloc: Geolocation,
-    private dataService: DataService,
     private googleMaps: GoogleMaps) { }
 
   ngOnInit() {
     const today = new Date();
     this.date = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate()}`;
     this.geoloc.getCurrentPosition().then(result => {
-      console.log(result);
       this.position = result;
+      this.moveMap();
     });
   }
 
@@ -37,6 +35,26 @@ export class MapPage implements OnInit, AfterViewInit {
   initMap() {
     const element = this.mapElement.nativeElement;
     this.map = this.googleMaps.create('map');
+  }
+
+  moveMap() {
+    const position: LatLng = {
+      lat: this.position.coords.latitude,
+      lng: this.position.coords.longitude,
+      toUrlValue: null,
+      equals: null,
+    };
+    const options: CameraPosition<any> = {
+      target: position,
+      tilt: 15,
+      zoom: 16
+    };
+    this.map.moveCamera(options);
+    const markers: MarkerOptions = {
+      position: position,
+      title: 'Akutálna poloha'
+    };
+    this.map.addMarker(markers);
   }
 
 }
